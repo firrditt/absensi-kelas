@@ -5,9 +5,9 @@ import numpy as np
 from tensorflow import reshape
 
 class Model():
-    def __init__(self, model_path=os.path.join(os.getcwd(), 'model', 'model.h5')):
+    def __init__(self, class_names, model_path=os.path.join(os.getcwd(), 'model', 'model.h5')):
         self.model_path = model_path
-        self.class_names = ['adjie', 'andre', 'fikar', 'fuad', 'raudi', 'riyan', 'vio']
+        self.class_names = class_names
 
     def predict(self, image):
         model = load_model(self.model_path)

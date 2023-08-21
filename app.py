@@ -31,7 +31,6 @@ def main():
     st.markdown(hide_menu_style, unsafe_allow_html=True)
 
     page = Pages()
-    # page.home()
 
     absensi = ['Masuk', 'Pulang']
     st.session_state.absensi = st.selectbox(

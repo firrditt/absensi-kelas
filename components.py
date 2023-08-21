@@ -3,7 +3,7 @@ from utils import Utils
 
 class Components(Utils):
 
-    def __init__(self, camera_input="Take a Picture"):
+    def __init__(self, camera_input="Absen"):
         self.camera_input = camera_input
         
 
