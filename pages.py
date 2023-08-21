@@ -11,7 +11,7 @@ import datetime
 class Pages():
       
     def predict(self):
-        data = load(open('dataset.json'), encoding='utf-8')
+        data = load(open('datasets/dataset.json', encoding='utf-8'))
         st.title('Absensi')
         utils = Utils(class_names=data)
         
