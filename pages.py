@@ -27,7 +27,6 @@ class Pages():
             dateNow = current_utc_datetime.astimezone(indonesia_timezone).strftime('%Y-%m-%d')
             timeNow = current_utc_datetime.astimezone(indonesia_timezone).strftime('%H:%M:%S')
 
-            batasTimeMasuk = ''
             with st.spinner('Please wait'):
                 prediction, probabilities = utils.getPrediction(img)
                 if probabilities < 0.85:
@@ -64,13 +63,6 @@ class Pages():
                         
                         df = df[(df['nama'] == prediction['nama']) & (df['tanggal'] == dateNow)]
                     st.table(df)
-                    # result = prediction['nama'].capitalize() if prediction['nama'] is not None else ''
-                    # col1, col2 = st.columns([2, 2])
-                    # col1.subheader('Hasil Absen')
-                    # col1.image(imgSt, use_column_width=True, clamp=True)
-
-                    # col2.subheader('Absen Masuk : ' + result)
-            
             
         else:
             st.info('Mohon Mengambil Gambar')

@@ -36,10 +36,7 @@ def main():
     st.session_state.absensi = st.selectbox(
         "Select absensi", absensi
     )
-    if 'Masuk' in st.session_state.absensi:
-        page.predict()
-    else:
-        page.predict()
+    page.predict()
 
 if __name__ == "__main__":
     main()
