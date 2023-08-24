@@ -5,6 +5,7 @@ from PIL import Image
 import pandas as pd
 from json import load
 import datetime
+import pytz
 
 
 
@@ -20,8 +21,12 @@ class Pages():
         
 
         if imgSt and img:
-            today = datetime.datetime.now().strftime("%Y-%m-%d")
-            timeNow = datetime.datetime.now().strftime('%H:%M:%S')
+            today = datetime.datetime.utcnow()
+            indonesia_timezone = pytz.timezone('Asia/Bangkok')
+            current_utc_datetime = pytz.utc.localize(today)
+            dateNow = current_utc_datetime.astimezone(indonesia_timezone).strftime('%Y-%m-%d')
+            timeNow = current_utc_datetime.astimezone(indonesia_timezone).strftime('%H:%M:%S')
+
             batasTimeMasuk = ''
             with st.spinner('Please wait'):
                 prediction, probabilities = utils.getPrediction(img)
@@ -32,10 +37,10 @@ class Pages():
                     ket = ''
                     if 'Masuk' in st.session_state.absensi:
                         ket = 'masuk'
-                        checkDF = df[(df['nama'] == prediction['nama']) & (df['keterangan'] == 'MASUK') & (df['tanggal'] == today)]
+                        checkDF = df[(df['nama'] == prediction['nama']) & (df['keterangan'] == 'MASUK') & (df['tanggal'] == dateNow)]
                     else:
                         ket = 'pulang'
-                        checkDF = df[(df['nama'] == prediction['nama']) & (df['keterangan'] == 'PULANG') & (df['tanggal'] == today)]
+                        checkDF = df[(df['nama'] == prediction['nama']) & (df['keterangan'] == 'PULANG') & (df['tanggal'] == dateNow)]
 
                     if not checkDF.empty:
                         df = df[df['nama'] == prediction['nama']]
@@ -45,19 +50,19 @@ class Pages():
                             data = {
                                 **prediction,
                                 'waktu': timeNow,
-                                'tanggal': today,
+                                'tanggal': dateNow,
                                 'keterangan': 'MASUK'
                             }
                         else:
                             data = {
                                 **prediction,
                                 'waktu': timeNow,
-                                'tanggal': today,
+                                'tanggal': dateNow,
                                 'keterangan': 'PULANG'
                             }
                         df = utils.postAbsen(data)
                         
-                        df = df[(df['nama'] == prediction['nama']) & (df['tanggal'] == today)]
+                        df = df[(df['nama'] == prediction['nama']) & (df['tanggal'] == dateNow)]
                     st.table(df)
                     # result = prediction['nama'].capitalize() if prediction['nama'] is not None else ''
                     # col1, col2 = st.columns([2, 2])
