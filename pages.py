@@ -29,6 +29,7 @@ class Pages():
 
             with st.spinner('Please wait'):
                 prediction, probabilities = utils.getPrediction(img)
+                print(probabilities, prediction)
                 if probabilities < 0.70:
                     st.title('Wajah tidak dikenali')
                 else:
